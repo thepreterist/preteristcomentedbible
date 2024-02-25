@@ -1,27 +1,73 @@
 <template>
-  <v-container class="fill-height">
-    <v-responsive class="align-center text-center fill-height">
+  <v-card>
+    <v-layout>
+      <!-- <v-system-bar color="deep-purple darken-3"></v-system-bar> -->
 
-      <v-row class="d-flex align-center justify-center">
-        <v-col cols="auto">
+      <v-app-bar
+        color="primary"
+        prominent
+      >
+        <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-          <v-app-bar :elevation="2">
-            <template v-slot:prepend>
-              <v-app-bar-nav-icon></v-app-bar-nav-icon>
-            </template>
+        <v-toolbar-title>My files</v-toolbar-title>
 
-            <v-app-bar-title>Bible</v-app-bar-title>
-          </v-app-bar>
+        <v-spacer></v-spacer>
 
-        </v-col>
-      </v-row>
-      <v-row>
+        <v-btn variant="text" icon="mdi-magnify"></v-btn>
 
-      </v-row>
-    </v-responsive>
-  </v-container>
+        <v-btn variant="text" icon="mdi-filter"></v-btn>
+
+        <v-btn variant="text" icon="mdi-dots-vertical"></v-btn>
+      </v-app-bar>
+
+      <v-navigation-drawer
+        v-model="drawer"
+        location="left"
+        temporary
+      >
+        <v-list
+          :items="items"
+        ></v-list>
+      </v-navigation-drawer>
+
+      <v-main style="height: 500px;">
+        <v-card-text>
+          The navigation drawer will appear from the bottom on smaller size screens.
+        </v-card-text>
+      </v-main>
+    </v-layout>
+  </v-card>
 </template>
 
-<script setup>
-  //
+<script>
+  export default {
+    data: () => ({
+      drawer: false,
+      group: null,
+      items: [
+        {
+          title: 'Foo',
+          value: 'foo',
+        },
+        {
+          title: 'Bar',
+          value: 'bar',
+        },
+        {
+          title: 'Fizz',
+          value: 'fizz',
+        },
+        {
+          title: 'Buzz',
+          value: 'buzz',
+        },
+      ],
+    }),
+
+    watch: {
+      group () {
+        this.drawer = false
+      },
+    },
+  }
 </script>
