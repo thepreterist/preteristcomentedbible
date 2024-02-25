@@ -9,7 +9,7 @@
       >
         <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-        <v-toolbar-title>My files</v-toolbar-title>
+        <v-toolbar-title>Matthew</v-toolbar-title>
 
         <v-spacer></v-spacer>
 
@@ -32,7 +32,7 @@
 
       <v-main style="height: 500px;">
         <v-card-text>
-          The navigation drawer will appear from the bottom on smaller size screens.
+          "The book of the generation of Jesus Christ, the son of David, the son of Abraham.
         </v-card-text>
       </v-main>
     </v-layout>
@@ -46,19 +46,19 @@
       group: null,
       items: [
         {
-          title: 'Foo',
+          title: 'Matthew',
           value: 'foo',
         },
         {
-          title: 'Bar',
+          title: 'Luke',
           value: 'bar',
         },
         {
-          title: 'Fizz',
+          title: 'Mark',
           value: 'fizz',
         },
         {
-          title: 'Buzz',
+          title: 'John',
           value: 'buzz',
         },
       ],
