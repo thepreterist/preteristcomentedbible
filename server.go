@@ -11,6 +11,7 @@ import (
 	"text/template"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 type verse struct {
@@ -40,6 +41,7 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 func main() {
 	e := echo.New()
 
+	e.Use(middleware.CORS())
 	e.Static("assets", "views/dist/assets")
 	e.Static("favicon.ico", "views/favicon.ico")
 

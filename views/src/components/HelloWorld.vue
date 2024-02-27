@@ -30,20 +30,44 @@
         ></v-list>
       </v-navigation-drawer>
 
-      <v-main style="height: 500px;">
-        <v-card-text>
-          "The book of the generation of Jesus Christ, the son of David, the son of Abraham.
-        </v-card-text>
+      <v-main style="height: 100vh">
+
+        <v-container fluid class="fill-height">
+
+            <v-row no-gutters class="fill-height">
+              <v-col cols="8" class="overflow-y-auto">
+                <v-list lines="one" height="1000px">
+                    <v-list-item
+                      v-for="verse in versicles"
+                      :key="verse.verse"
+                      :title="verse.verse"
+                      :subtitle="verse.text"
+                    ></v-list-item>
+                  </v-list>
+              </v-col>
+
+              <v-col cols="4" class="fill-height">
+                <v-sheet class="pa-2 ma-2 fill-height">
+                  .v-col-4
+                </v-sheet>
+              </v-col>
+            </v-row>
+          </v-container>
+
+
       </v-main>
     </v-layout>
   </v-card>
 </template>
 
 <script>
+
   export default {
-    data: () => ({
+    data: () => (
+      {
       drawer: false,
       group: null,
+      versicles: [],
       items: [
         {
           title: 'Matthew',
@@ -61,8 +85,31 @@
           title: 'John',
           value: 'buzz',
         },
-      ],
+      ]
     }),
+
+    created() {
+
+      this.getPosts()
+      // // watch the params of the route to fetch the data again
+      // this.$watch(
+      //   // () => this.$route.params,
+      //   () => {
+      //     this.getPosts()
+      //   },
+      //   // fetch the data when the view is created and the data is
+      //   // already being observed
+      //   { immediate: true }
+      // )
+    },
+
+    methods: {
+      getPosts() {
+        fetch('http://localhost:1323/kjv/Matthew/24', { mode: "cors"})
+          .then(response => response.json())
+          .then(data => this.versicles = data.verses)
+      }
+    },
 
     watch: {
       group () {
