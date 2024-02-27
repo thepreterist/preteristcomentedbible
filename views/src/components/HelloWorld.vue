@@ -35,15 +35,46 @@
         <v-container fluid class="fill-height">
 
             <v-row no-gutters class="fill-height">
-              <v-col cols="8" class="overflow-y-auto">
-                <v-list lines="one" height="1000px">
+              <v-col cols="8" class="fill-height overflow-y-auto">
+                <!-- <v-pagination :length="book.chapters" :start="chapter"
+                v-model.lazy="chapter"></v-pagination> -->
+
+                <!-- <div>{{ chapter }}</div> -->
+
+              <v-bottom-sheet v-model="sheet">
+                  <template v-slot:activator="{ props }">
+                    <div class="text-center">
+                      <v-btn
+                        v-bind="props"
+                        color="primary"
+                        size="large"
+                        :text="chapter + ''"
+                      ></v-btn>
+                    </div>
+                  </template>
+
+                  <v-list>
+                    <v-list-subheader>Select Chapter</v-list-subheader>
+
                     <v-list-item
-                      v-for="verse in versicles"
-                      :key="verse.verse"
-                      :title="verse.verse"
-                      :subtitle="verse.text"
+                      v-for="chapt in book.chapters"
+                      :key="chapt"
+                      :title="chapt"
+                      @click="sheet = false; getPosts(chapt)"
                     ></v-list-item>
                   </v-list>
+
+                  <!-- <v-btn
+                  v-for="chapt in book.chapters"
+                  @click="sheet = false"
+                  >
+                    {{ chapt }}
+                  </v-btn> -->
+
+
+                </v-bottom-sheet>
+
+                <v-card v-for="verse in versicles" :subtitle="verse.verse" :text="verse.text"></v-card>
               </v-col>
 
               <v-col cols="4" class="fill-height">
@@ -68,6 +99,10 @@
       drawer: false,
       group: null,
       versicles: [],
+      book: {},
+      chapter: 1,
+      chaptersPanelTitle: "",
+      sheet: false,
       items: [
         {
           title: 'Matthew',
@@ -104,10 +139,21 @@
     },
 
     methods: {
-      getPosts() {
-        fetch('http://localhost:1323/kjv/Matthew/24', { mode: "cors"})
+
+      getPosts(selectedChapter) {
+
+        if(!selectedChapter) {
+          selectedChapter = 1
+        }
+
+        fetch('http://localhost:1323/kjv/Matthew/' + selectedChapter, { mode: "cors"})
           .then(response => response.json())
-          .then(data => this.versicles = data.verses)
+          .then(data => {
+            this.versicles = data.chapter.verses
+            this.book = data
+            this.chapter = parseInt(data.chapter.chapter)
+            this.chaptersPanelTitle = "Chapter " + this.chapter
+          })
       }
     },
 

@@ -90,7 +90,12 @@ func main() {
 
 			common.Logger.LogInfo().Msg(fmt.Sprintf("size %d", len(loadedBook.Chapters)))
 
-			result, errorMarsh := json.Marshal(loadedBook.Chapters[chapterId])
+			page := map[string]interface{}{
+				"chapters": len(loadedBook.Chapters),
+				"chapter":  loadedBook.Chapters[chapterId],
+			}
+
+			result, errorMarsh := json.Marshal(page)
 
 			if errorMarsh != nil {
 				common.Logger.LogInfo().Msg(fmt.Sprintf("error %s", errorMarsh.Error()))
@@ -102,5 +107,6 @@ func main() {
 			return c.String(http.StatusBadGateway, fmt.Sprintf("Error when loading bible and chapter! %s, %s", bookFile, err.Error()))
 		}
 	})
+
 	e.Logger.Fatal(e.Start(":1323"))
 }
